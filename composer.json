@@ -1,0 +1,57 @@
+{
+    "name": "vaironaegos/asaas-pix",
+    "description": "",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "minimum-stability": "stable",
+    "scripts": {
+        "test": "XDEBUG_MODE=debug; phpunit --testdox --do-not-cache-result --configuration tests/phpunit.xml",
+        "test:unit": "XDEBUG_MODE=debug; phpunit --do-not-cache-result --configuration tests/phpunit.xml --testdox --testsuite unit",
+        "test:integration": "XDEBUG_MODE=debug; phpunit --do-not-cache-result --configuration tests/phpunit.xml --testsuite integration",
+        "test:e2e": "XDEBUG_MODE=debug; phpunit --do-not-cache-result --configuration tests/phpunit.xml --testsuite e2e",
+        "test:filter": "XDEBUG_MODE=develop; phpunit --testdox --do-not-cache-result --configuration tests/phpunit.xml --filter",
+        "test:coverage": "XDEBUG_MODE=coverage; phpunit --configuration tests/phpunit.xml --coverage-html tests/coverage/html",
+        "test:coverage-ci": "XDEBUG_MODE=coverage; phpunit --configuration tests/phpunit.xml --coverage-text --colors=never",
+        "phpcs": "phpcs --standard=phpcs.xml",
+        "phpcs:fix": "php-cs-fixer fix --config=.php-cs-fixer.php",
+        "phpcs:check": "php-cs-fixer fix --config=../..php-cs-fixer.php --allow-risky=yes --diff --verbose --dry-run .",
+        "phpcbf": "phpcbf -w -q > /dev/null || true"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "vlucas/phpdotenv": "^5.3",
+        "ramsey/uuid": "^4.1",
+        "psr/http-message": "^1.0",
+        "guzzlehttp/psr7": "^2.4",
+        "php-di/php-di": "^7.0",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5",
+        "friendsofphp/php-cs-fixer": "^3",
+        "phpunit/phpunit": "^9.5",
+        "fakerphp/faker": "^1.14",
+        "dg/bypass-finals": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Astrotech\\AsaasGateway\\": "src\\"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests\\"
+        }
+    },
+    "config": {
+        "bin-compat": "full",
+        "process-timeout": 1800,
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "platform": {
+            "php": "8.2"
+        }
+    }
+}

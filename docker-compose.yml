@@ -1,0 +1,17 @@
+version: '3'
+services:
+  api:
+    image: astrotechdevs/php-nginx:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-api
+    ports:
+      - "8002:80"
+    volumes:
+      - ./:/app
+    networks:
+      - asaas-pix-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  asaas-pix-network:
+    driver: bridge
