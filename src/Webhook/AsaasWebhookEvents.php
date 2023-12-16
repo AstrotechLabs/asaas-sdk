@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace AstrotechLabs\AsaasSdk\Webhook;
 
+/**
+ * @see https://docs.asaas.com/docs/webhook-para-cobrancas
+ */
 enum AsaasWebhookEvents: string
 {
     case PAYMENT_CONFIRMED = "PAYMENT_CONFIRMED";
