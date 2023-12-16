@@ -9,24 +9,83 @@ A forma mais recomendada de instalar este pacote é através do [composer](http:
 Para instalar, basta executar o comando abaixo
 
 ```bash
-$ @todo
+$ php composer.phar require astrotechlabs/asaas-sdk
 ```
 
 ou adicionar esse linha
 
 ```
-@todo
+"astrotechlabs/asaas-sdk": "^1.0"
 ```
 
 na seção `require` do seu arquivo `composer.json`.
 
 ## Como Usar?
+### Minimo para utilização
+#
+#### 1. Identificador único de cliente
+```php
+$sut = new CustomerIdentifierCreator($_ENV['ASAAS_API_KEY'], true);
 
-@todo
+$customerAsaasId = $sut->generateCustomerIdentifier(new CustomerData(
+    name: 'Joãozinho Barbosa',
+    phone: '999999999',
+    cpfCnpj: '01234567890'
+));
+
+print_r($customerAsaasId);
+```
+
+#### Saída
+```
+[
+    'identifier' => 'cus_xxxxxxxx'
+]
+```
+#
+#### 2. Criar cobrança
+```php
+use AstrotechLabs\AsaasSdk\AssasGateway;
+use AstrotechLabs\AsaasSdk\Enum\BillingTypes;
+use AstrotechLabs\AsaasSdk\AssasGatewayParams;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\PixData;
+
+$asaasGateway = new AssasGateway(new AssasGatewayParams(
+    apiKey: 'xxxxxxxxxx',
+    // isSandBox: true (opcional)
+));
+
+$pixChargeResponse = $asaasGateway->createCharge(new PixData(
+    customer: 'cus_xxxxxxxx', // Identificador único de cliente
+    billingType: BillingTypes::PIX,
+    value: 100.00,
+    dueDate: "2023-12-20"
+));
+
+print_r($pixChargeResponse);
+```
+
+### Saída
+```
+[
+    'gatewayId': 'pay_kp6gqaovguxqr1od',
+    'paymentUrl': 'https://sandbox.asaas.com/i/kp6gqaovguxqr1od',
+    'copyPasteUrl': '00020101021226820014br.gov.bcb.pix2560qrpix-h.bradesco.com.br/xxxxxxxxx-xxxx......',
+    'details' => [
+        'object' => 'payment'
+        'id' => 'pay_kp6gqaovguxqr1od'
+        'dateCreated' => '2023-12-16'
+        'customer' => 'cus_000005797885'
+        'paymentLink' => 'https://sandbox.asaas.com/i/xxxxxxxxxxx',
+        ..............
+    ],
+    'qrCode' => 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAYsAAA......'
+]
+```
 
 ## Contributing
 
-Pull Request são bem-vindao. Para mudanças importantes, abra primeiro uma issue para discutir o que você gostaria de mudar.
+Pull Request são bem-vindas. Para mudanças importantes, abra primeiro uma issue para discutir o que você gostaria de mudar.
 
 Certifique-se de atualizar os testes conforme apropriado.
 

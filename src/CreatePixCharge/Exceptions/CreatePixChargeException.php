@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Astrotech\AsaasGateway\AsaasCustomerIdentifierCreator\Exceptions;
+namespace AstrotechLabs\AsaasSdk\CreatePixCharge\Exceptions;
 
 use Exception;
 
-final class CreateAsaasCustomerIdentifierException extends Exception
+final class CreatePixChargeException extends Exception
 {
     private string $description;
     private string $type;

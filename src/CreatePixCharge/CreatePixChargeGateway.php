@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Astrotech\AsaasGateway\CreateAsaasPixChargeGateway;
+namespace AstrotechLabs\AsaasSdk\CreatePixCharge;
 
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Dto\CreateAsaasPixChargeOutput;
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Dto\PixData;
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Dto\QrCodeOutput;
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Exceptions\CreateAsaasPixChargeException;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\PixData;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\QrCodeOutput;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\CreatePixChargeOutput;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Exceptions\CreatePixChargeException;
 
-final class CreateAsaasPixChargeGateway
+final class CreatePixChargeGateway
 {
     private GuzzleClient $httpClient;
     private string $baseUrl;
@@ -30,7 +30,7 @@ final class CreateAsaasPixChargeGateway
         ]);
     }
 
-    public function createCharge(PixData $pixData): CreateAsaasPixChargeOutput
+    public function createCharge(PixData $pixData): CreatePixChargeOutput
     {
         $headers = [
             "Content-Type" => "application/json",
@@ -44,7 +44,7 @@ final class CreateAsaasPixChargeGateway
             ]);
         } catch (ClientException $e) {
             $responsePayload = json_decode($e->getResponse()->getBody()->getContents(), true);
-            throw new CreateAsaasPixChargeException(
+            throw new CreatePixChargeException(
                 1001,
                 $responsePayload['errors'][0]['description'],
                 $responsePayload['errors'][0]['code'],
@@ -57,11 +57,12 @@ final class CreateAsaasPixChargeGateway
 
         $qrCode = $this->getPaymentQrCode($responsePayload['id']);
 
-        return new CreateAsaasPixChargeOutput(
+        return new CreatePixChargeOutput(
             gatewayId: $responsePayload['id'],
             paymentUrl: $responsePayload['invoiceUrl'],
+            copyPasteUrl: $qrCode->copyAndPaste,
             details: $responsePayload,
-            qrCode: $qrCode->encodedImage
+            qrCode: 'data:image/png;base64, ' . $qrCode->encodedImage
         );
     }
 
@@ -75,7 +76,7 @@ final class CreateAsaasPixChargeGateway
         try {
             $response = $this->httpClient->get("payments/{$paymentId}/pixQrCode", ['headers' => $headers]);
         } catch (ClientException $e) {
-            throw new CreateAsaasPixChargeException(
+            throw new CreatePixChargeException(
                 $e->getCode(),
                 $e->getMessage(),
                 $this->isSandBox ? $e->getTraceAsString() : '',

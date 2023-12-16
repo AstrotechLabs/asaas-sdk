@@ -1,8 +1,10 @@
 <?php
 
-namespace Astrotech\AsaasGateway\AsaasCustomerIdentifierCreator\Dto;
+declare(strict_types=1);
 
-class AsaasCustomerData
+namespace AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto;
+
+class CustomerData
 {
     public function __construct(
         public readonly string $name,
@@ -11,16 +13,15 @@ class AsaasCustomerData
         public readonly ?string $email = null,
         public readonly ?string $postalCode = null,
         public readonly ?string $address = null,
-        public readonly ?int    $addressNumber = null,
+        public readonly ?int $addressNumber = null,
         public readonly ?string $complement = null,
         public readonly ?string $province = null,
         public readonly ?string $externalReference = null,
-        public readonly ?bool   $notificationDisabled = null,
+        public readonly ?bool $notificationDisabled = null,
         public readonly ?string $additionalEmails = null,
         public readonly ?string $municipalInscription = null,
         public readonly ?string $stateInscription = null,
         public readonly ?string $observations = null,
-
     ) {
     }
 

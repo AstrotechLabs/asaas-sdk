@@ -1,6 +1,6 @@
 {
-    "name": "vaironaegos/asaas-pix",
-    "description": "",
+    "name": "astrotechlabs/asaas-sdk",
+    "description": "Pacote facilitador para integrações com Asaas Pagamento",
     "type": "project",
     "license": "BSD-3-Clause",
     "minimum-stability": "stable",
@@ -37,7 +37,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Astrotech\\AsaasGateway\\": "src\\"
+            "AstrotechLabs\\AsaasSdk\\": "src\\"
         }
     },
     "autoload-dev": {

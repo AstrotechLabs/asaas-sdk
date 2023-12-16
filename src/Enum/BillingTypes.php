@@ -1,6 +1,8 @@
 <?php
 
-namespace Astrotech\AsaasGateway\Enum;
+declare(strict_types=1);
+
+namespace AstrotechLabs\AsaasSdk\Enum;
 
 enum BillingTypes: string
 {

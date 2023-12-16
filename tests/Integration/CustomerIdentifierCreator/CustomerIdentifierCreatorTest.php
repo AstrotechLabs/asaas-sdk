@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\AsaasCustomerIdentifierCreator;
+namespace Tests\Integration\CustomerIdentifierCreator;
 
-use Astrotech\AsaasGateway\AsaasCustomerIdentifierCreator\AsaasCustomerIdentifierCreator;
-use Astrotech\AsaasGateway\AsaasCustomerIdentifierCreator\Dto\AsaasCustomerData;
 use Tests\TestCase;
+use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerData;
+use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\CustomerIdentifierCreator;
 
-final class AsaasCustomerIdentifierCreatorTest extends TestCase
+final class CustomerIdentifierCreatorTest extends TestCase
 {
     public function testItShouldCreateCustomerUniqueIdentifier()
     {
         $customerId = self::$faker->uuid;
 
-        $sut = new AsaasCustomerIdentifierCreator($_ENV['ASAAS_API_KEY'], true);
+        $sut = new CustomerIdentifierCreator($_ENV['ASAAS_API_KEY'], true);
 
-        $customerAsaasId = $sut->generateCustomerIdentifier(new AsaasCustomerData(
+        $customerAsaasId = $sut->generateCustomerIdentifier(new CustomerData(
             name: self::$faker->name,
             phone: self::$faker->phoneNumber,
             cpfCnpj: self::$faker->numerify('67981499011'),
@@ -40,13 +40,15 @@ final class AsaasCustomerIdentifierCreatorTest extends TestCase
 
     public function testItShouldCreateCustomerUniqueIdentifierWhenProvideOnlyRequiredParameters()
     {
-        $sut = new AsaasCustomerIdentifierCreator($_ENV['ASAAS_API_KEY'], true);
+        $sut = new CustomerIdentifierCreator($_ENV['ASAAS_API_KEY'], true);
 
-        $customerAsaasId = $sut->generateCustomerIdentifier(new AsaasCustomerData(
+        $customerAsaasId = $sut->generateCustomerIdentifier(new CustomerData(
             name: self::$faker->name,
             phone: self::$faker->phoneNumber,
             cpfCnpj: self::$faker->numerify('67981499011')
         ));
+
+        print_r($customerAsaasId);
 
         $this->assertNotEmpty($customerAsaasId->identifier);
         $this->assertStringContainsString('cus_', $customerAsaasId->identifier);

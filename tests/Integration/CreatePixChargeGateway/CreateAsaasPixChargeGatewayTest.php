@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration\CreateAsaasPixChargeGateway;
+namespace Tests\Integration\CreatePixChargeGateway;
 
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\CreateAsaasPixChargeGateway;
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Dto\PixData;
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Dto\QrCodeOutput;
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Exceptions\CreateAsaasPixChargeException;
-use Astrotech\AsaasGateway\Enum\BillingTypes;
 use Tests\TestCase;
+use AstrotechLabs\AsaasSdk\Enum\BillingTypes;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\PixData;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\QrCodeOutput;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\CreatePixChargeGateway;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Exceptions\CreatePixChargeException;
 
 final class CreateAsaasPixChargeGatewayTest extends TestCase
 {
     public function testItShouldDefineCorrectUrlWhenNotInSandbox()
     {
-        $sut = new CreateAsaasPixChargeGateway($_ENV['ASAAS_API_KEY'], false);
+        $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], false);
 
         $this->assertIsString($sut->getBaseUrl());
         $this->assertNotEmpty($sut->getBaseUrl());
@@ -24,7 +24,7 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
 
     public function testItShouldDefineCorrectUrlWhenasInSandbox()
     {
-        $sut = new CreateAsaasPixChargeGateway($_ENV['ASAAS_API_KEY'], true);
+        $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], true);
 
         $this->assertIsString($sut->getBaseUrl());
         $this->assertNotEmpty($sut->getBaseUrl());
@@ -33,11 +33,11 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
 
     public function testItShouldThrowAnExceptionWhenProvideInvalidCustomerIdentifier()
     {
-        $this->expectException(CreateAsaasPixChargeException::class);
+        $this->expectException(CreatePixChargeException::class);
         $this->expectExceptionCode(1001);
         $this->expectExceptionMessage('Customer inválido ou não informado.');
 
-        $sut = new CreateAsaasPixChargeGateway($_ENV['ASAAS_API_KEY'], true);
+        $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], true);
         $customerIdentifier = self::$faker->uuid;
 
         $response = $sut->createCharge(new PixData(
@@ -50,11 +50,11 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
 
     public function testItShouldThrowAnExceptionWhenProvideInvalidDueDate()
     {
-        $this->expectException(CreateAsaasPixChargeException::class);
+        $this->expectException(CreatePixChargeException::class);
         $this->expectExceptionCode(1001);
         $this->expectExceptionMessage('Não é permitido data de vencimento inferior a hoje.');
 
-        $sut = new CreateAsaasPixChargeGateway($_ENV['ASAAS_API_KEY'], true);
+        $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], true);
         $customerIdentifier = 'cus_000005797885';
 
         $response = $sut->createCharge(new PixData(
@@ -67,7 +67,7 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
 
     public function testItShouldCreatePaymentCharge()
     {
-        $sut = new CreateAsaasPixChargeGateway($_ENV['ASAAS_API_KEY'], true);
+        $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], true);
 
         $customerIdentifier = 'cus_000005797885';
 
@@ -94,19 +94,19 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
         $this->assertSame($customerIdentifier, $response->details['customer']);
     }
 
-    public function testItShouldThrowAnExceptionWhenTryGetQrCodeForInvalidOrNonexistentPayment()
+    public function testItShouldThrowAnExceptionWhenTryGetQrCodeForInvalidOrNonExistentPayment()
     {
-        $this->expectException(CreateAsaasPixChargeException::class);
+        $this->expectException(CreatePixChargeException::class);
         $this->expectExceptionCode(404);
 
-        $sut = new CreateAsaasPixChargeGateway($_ENV['ASAAS_API_KEY'], true);
+        $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], true);
 
         $response = $sut->getPaymentQrCode(self::$faker->name);
     }
 
     public function testItShouldTReturnValidQrCodeWhenValidPaymentIdProvide()
     {
-        $sut = new CreateAsaasPixChargeGateway($_ENV['ASAAS_API_KEY'], true);
+        $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], true);
 
         $response = $sut->getPaymentQrCode('pay_5xs951pgtcuiqe41');
 

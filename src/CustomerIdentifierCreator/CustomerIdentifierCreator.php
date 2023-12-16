@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Astrotech\AsaasGateway\AsaasCustomerIdentifierCreator;
+namespace AstrotechLabs\AsaasSdk\CustomerIdentifierCreator;
 
-use Astrotech\AsaasGateway\AsaasCustomerIdentifierCreator\Dto\AsaasCustomerData;
-use Astrotech\AsaasGateway\AsaasCustomerIdentifierCreator\Dto\AsaasCustomerIdentifierOutput;
-use Astrotech\AsaasGateway\AsaasCustomerIdentifierCreator\Exceptions\CreateAsaasCustomerIdentifierException;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
+use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerData;
+use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerIdentifierOutput;
+use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Exceptions\CreateCustomerIdentifierException;
 
-class AsaasCustomerIdentifierCreator
+class CustomerIdentifierCreator
 {
     private GuzzleClient $httpClient;
     private string $baseUrl;
@@ -29,7 +29,7 @@ class AsaasCustomerIdentifierCreator
         ]);
     }
 
-    public function generateCustomerIdentifier(AsaasCustomerData $customerData): AsaasCustomerIdentifierOutput
+    public function generateCustomerIdentifier(CustomerData $customerData): CustomerIdentifierOutput
     {
         $headers = [
             "Content-Type" => "application/json",
@@ -43,7 +43,7 @@ class AsaasCustomerIdentifierCreator
             ]);
         } catch (ClientException $e) {
             $responsePayload = json_decode($e->getResponse()->getBody()->getContents(), true);
-            throw new CreateAsaasCustomerIdentifierException(
+            throw new CreateCustomerIdentifierException(
                 1001,
                 $responsePayload['errors'][0]['description'],
                 $responsePayload['errors'][0]['code'],
@@ -54,6 +54,6 @@ class AsaasCustomerIdentifierCreator
 
         $responsePayload = json_decode($response->getBody()->getContents(), true);
 
-        return new AsaasCustomerIdentifierOutput(identifier: $responsePayload['id']);
+        return new CustomerIdentifierOutput(identifier: $responsePayload['id']);
     }
 }

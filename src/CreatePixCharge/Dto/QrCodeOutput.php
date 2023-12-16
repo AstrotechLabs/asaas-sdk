@@ -1,6 +1,8 @@
 <?php
 
-namespace Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Dto;
+declare(strict_types=1);
+
+namespace AstrotechLabs\AsaasSdk\CreatePixCharge\Dto;
 
 final class QrCodeOutput
 {
