@@ -1,8 +1,10 @@
 <?php
 
-namespace Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Dto;
+declare(strict_types=1);
 
-use Astrotech\AsaasGateway\Enum\BillingTypes;
+namespace AstrotechLabs\AsaasSdk\CreatePixCharge\Dto;
+
+use AstrotechLabs\AsaasSdk\Enum\BillingTypes;
 
 final class PixData
 {

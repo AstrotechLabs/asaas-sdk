@@ -1,6 +1,8 @@
 <?php
 
-namespace Astrotech\AsaasGateway;
+declare(strict_types=1);
+
+namespace AstrotechLabs\AsaasSdk;
 
 class AssasGatewayParams
 {

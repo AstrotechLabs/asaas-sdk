@@ -1,9 +1,11 @@
 <?php
 
-namespace Astrotech\AsaasGateway;
+declare(strict_types=1);
 
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\CreateAsaasPixChargeGateway;
-use Astrotech\AsaasGateway\CreateAsaasPixChargeGateway\Dto\PixData;
+namespace AstrotechLabs\AsaasSdk;
+
+use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\PixData;
+use AstrotechLabs\AsaasSdk\CreatePixCharge\CreatePixChargeGateway;
 
 class AssasGateway
 {
@@ -14,7 +16,7 @@ class AssasGateway
 
     public function createCharge(PixData $pixData): array
     {
-        $createPixChargeGateway = new CreateAsaasPixChargeGateway(
+        $createPixChargeGateway = new CreatePixChargeGateway(
             apiKey: $this->params->apiKey,
             isSandBox: $this->params->isSandBox
         );
