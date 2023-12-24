@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\CreatePixCharge\Exceptions;
+namespace AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Exceptions;
 
 use Exception;
 

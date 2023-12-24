@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\Enum;
+namespace AstrotechLabs\AsaasSdk\Pix\Enum;
 
 enum BillingTypes: string
 {

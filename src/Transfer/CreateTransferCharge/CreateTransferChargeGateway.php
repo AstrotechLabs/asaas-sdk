@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\CustomerIdentifierCreator;
+namespace AstrotechLabs\AsaasSdk\Transfer\CreateTransferCharge;
 
+use AstrotechLabs\AsaasSdk\Transfer\CreateTransferCharge\Dto\CreateTransferChargeOutput;
+use AstrotechLabs\AsaasSdk\Transfer\CreateTransferCharge\Dto\TransferData;
+use AstrotechLabs\AsaasSdk\Transfer\CreateTransferCharge\Exceptions\CreateTransferChargeException;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
-use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerData;
-use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerIdentifierOutput;
-use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Exceptions\CreateCustomerIdentifierException;
 
-class CustomerIdentifierCreator
+final class CreateTransferChargeGateway
 {
     private GuzzleClient $httpClient;
     private string $baseUrl;
@@ -29,7 +29,7 @@ class CustomerIdentifierCreator
         ]);
     }
 
-    public function generateCustomerIdentifier(CustomerData $customerData): CustomerIdentifierOutput
+    public function createCharge(TransferData $transferData): CreateTransferChargeOutput
     {
         $headers = [
             "Content-Type" => "application/json",
@@ -37,23 +37,35 @@ class CustomerIdentifierCreator
         ];
 
         try {
-            $response = $this->httpClient->post("customers", [
+            $response = $this->httpClient->post("transfers", [
                 'headers' => $headers,
-                'json' => $customerData->values()
+                'json' => $transferData->values()
             ]);
         } catch (ClientException $e) {
             $responsePayload = json_decode($e->getResponse()->getBody()->getContents(), true);
-            throw new CreateCustomerIdentifierException(
+            throw new CreateTransferChargeException(
                 1001,
                 $responsePayload['errors'][0]['description'],
                 $responsePayload['errors'][0]['code'],
-                $customerData->values(),
+                $transferData->values(),
                 $responsePayload
             );
         }
 
         $responsePayload = json_decode($response->getBody()->getContents(), true);
 
-        return new CustomerIdentifierOutput(identifier: $responsePayload['id']);
+        return new CreateTransferChargeOutput(
+            gatewayId: $responsePayload['id'],
+            status: $responsePayload['status'],
+            fee: $responsePayload['transferFee'],
+            value: $responsePayload['value'],
+            authorized: $responsePayload['authorized'],
+            details: $responsePayload,
+        );
+    }
+
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
     }
 }

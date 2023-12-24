@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\Webhook;
+namespace AstrotechLabs\AsaasSdk\Pix\Webhook;
 
 enum AsaasWebhookPaymentType: string
 {

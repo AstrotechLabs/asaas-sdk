@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration\CustomerIdentifierCreator;
 
+use AstrotechLabs\AsaasSdk\Pix\CustomerIdentifierCreator\CustomerIdentifierCreator;
+use AstrotechLabs\AsaasSdk\Pix\CustomerIdentifierCreator\Dto\CustomerData;
 use Tests\TestCase;
-use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerData;
-use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\CustomerIdentifierCreator;
 
 final class CustomerIdentifierCreatorTest extends TestCase
 {
