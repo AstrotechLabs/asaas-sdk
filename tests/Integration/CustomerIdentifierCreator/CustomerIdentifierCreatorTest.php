@@ -48,8 +48,6 @@ final class CustomerIdentifierCreatorTest extends TestCase
             cpfCnpj: self::$faker->numerify('67981499011')
         ));
 
-        print_r($customerAsaasId);
-
         $this->assertNotEmpty($customerAsaasId->identifier);
         $this->assertStringContainsString('cus_', $customerAsaasId->identifier);
     }
