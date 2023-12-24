@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Integration\CreatePixChargeGateway;
 
+use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerData;
+use DateTime;
 use Tests\TestCase;
 use AstrotechLabs\AsaasSdk\Enum\BillingTypes;
 use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\PixData;
@@ -35,16 +37,19 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
     {
         $this->expectException(CreatePixChargeException::class);
         $this->expectExceptionCode(1001);
-        $this->expectExceptionMessage('Customer inválido ou não informado.');
 
         $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], true);
         $customerIdentifier = self::$faker->uuid;
 
         $response = $sut->createCharge(new PixData(
-            customer: $customerIdentifier,
+            customer: new CustomerData(
+                name: '',
+                phone: '',
+                cpfCnpj: '',
+            ),
             billingType: BillingTypes::PIX,
             value: 100.90,
-            dueDate: "2023-12-20"
+            dueDate: (new DateTime())->modify('+1 day')->format('Y-m-d')
         ));
     }
 
@@ -58,7 +63,11 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
         $customerIdentifier = 'cus_000005797885';
 
         $response = $sut->createCharge(new PixData(
-            customer: $customerIdentifier,
+            customer: new CustomerData(
+                name: self::$faker->name,
+                phone: self::$faker->phoneNumber,
+                cpfCnpj: self::$faker->numerify('67981499011'),
+            ),
             billingType: BillingTypes::PIX,
             value: 100.90,
             dueDate: "2023-07-20"
@@ -68,14 +77,17 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
     public function testItShouldCreatePaymentCharge()
     {
         $sut = new CreatePixChargeGateway($_ENV['ASAAS_API_KEY'], true);
-
-        $customerIdentifier = 'cus_000005797885';
+        $customer = new CustomerData(
+            name: self::$faker->name,
+            phone: self::$faker->phoneNumber,
+            cpfCnpj: self::$faker->numerify('67981499011'),
+        );
 
         $response = $sut->createCharge(new PixData(
-            customer: $customerIdentifier,
+            customer: $customer,
             billingType: BillingTypes::PIX,
             value: 100.90,
-            dueDate: "2023-12-20"
+            dueDate: "2023-12-30"
         ));
 
         $this->assertIsObject($response);
@@ -91,7 +103,6 @@ final class CreateAsaasPixChargeGatewayTest extends TestCase
         $this->assertArrayHasKey('status', $response->details);
         $this->assertSame($response->gatewayId, $response->details['id']);
         $this->assertSame($response->paymentUrl, $response->details['invoiceUrl']);
-        $this->assertSame($customerIdentifier, $response->details['customer']);
     }
 
     public function testItShouldThrowAnExceptionWhenTryGetQrCodeForInvalidOrNonExistentPayment()

@@ -10,6 +10,7 @@ class CustomerData
         public readonly string $name,
         public readonly string $phone,
         public readonly string $cpfCnpj,
+        public ?string $identifier = null,
         public readonly ?string $email = null,
         public readonly ?string $postalCode = null,
         public readonly ?string $address = null,

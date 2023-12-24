@@ -22,28 +22,7 @@ na seção `require` do seu arquivo `composer.json`.
 
 ## Como Usar?
 ### Minimo para utilização
-#
-#### 1. Identificador único de cliente
-```php
-$sut = new CustomerIdentifierCreator($_ENV['ASAAS_API_KEY'], true);
 
-$customerAsaasId = $sut->generateCustomerIdentifier(new CustomerData(
-    name: 'Joãozinho Barbosa',
-    phone: '999999999',
-    cpfCnpj: '01234567890'
-));
-
-print_r($customerAsaasId);
-```
-
-#### Saída
-```
-[
-    'identifier' => 'cus_xxxxxxxx'
-]
-```
-#
-#### 2. Criar cobrança
 ```php
 use AstrotechLabs\AsaasSdk\AssasGateway;
 use AstrotechLabs\AsaasSdk\Enum\BillingTypes;
@@ -56,7 +35,11 @@ $asaasGateway = new AssasGateway(new AssasGatewayParams(
 ));
 
 $pixChargeResponse = $asaasGateway->createCharge(new PixData(
-    customer: 'cus_xxxxxxxx', // Identificador único de cliente
+    customer: new CustomerData(
+        name: 'Joãozinho Barbosa',
+        phone: '999999999',
+        cpfCnpj: '01234567890'
+    ),
     billingType: BillingTypes::PIX,
     value: 100.00,
     dueDate: "2023-12-20"
