@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace AstrotechLabs\AsaasSdk;
 
-use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\PixData;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\CreatePixChargeGateway;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\CreatePixChargeGateway;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Dto\PixData;
+use AstrotechLabs\AsaasSdk\Transfer\CreateTransferCharge\CreateTransferChargeGateway;
+use AstrotechLabs\AsaasSdk\Transfer\CreateTransferCharge\Dto\TransferData;
 
 class AssasGateway
 {
@@ -14,7 +16,7 @@ class AssasGateway
     ) {
     }
 
-    public function createCharge(PixData $pixData): array
+    public function createPixCharge(PixData $pixData): array
     {
         $createPixChargeGateway = new CreatePixChargeGateway(
             apiKey: $this->params->apiKey,
@@ -22,5 +24,15 @@ class AssasGateway
         );
 
         return $createPixChargeGateway->createCharge($pixData)->toArray();
+    }
+
+    public function createTransferCharge(TransferData $transferData): array
+    {
+        $createTransferChargeGateway = new CreateTransferChargeGateway(
+            apiKey: $this->params->apiKey,
+            isSandBox: $this->params->isSandBox
+        );
+
+        return $createTransferChargeGateway->createCharge($transferData)->toArray();
     }
 }

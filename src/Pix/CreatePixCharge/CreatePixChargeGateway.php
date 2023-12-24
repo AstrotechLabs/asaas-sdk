@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\CreatePixCharge;
+namespace AstrotechLabs\AsaasSdk\Pix\CreatePixCharge;
 
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Dto\CreatePixChargeOutput;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Dto\PixData;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Dto\QrCodeOutput;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Exceptions\CreatePixChargeException;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\ClientException;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\PixData;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\QrCodeOutput;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\CreatePixChargeOutput;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\Exceptions\CreatePixChargeException;
 
 final class CreatePixChargeGateway
 {

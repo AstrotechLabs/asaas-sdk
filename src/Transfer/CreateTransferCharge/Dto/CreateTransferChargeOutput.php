@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\CreatePixCharge\Dto;
+namespace AstrotechLabs\AsaasSdk\Transfer\CreateTransferCharge\Dto;
 
 use JsonSerializable;
 
-final class CreatePixChargeOutput implements JsonSerializable
+final class CreateTransferChargeOutput implements JsonSerializable
 {
     public function __construct(
         public readonly string $gatewayId,
-        public readonly string $paymentUrl,
-        public readonly string $copyPasteUrl,
+        public readonly string $status,
+        public readonly float $fee,
+        public readonly float $value,
+        public readonly bool $authorized,
         public readonly array $details,
-        public readonly string $qrCode
     ) {
     }
 

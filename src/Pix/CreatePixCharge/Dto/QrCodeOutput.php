@@ -2,18 +2,14 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\CreatePixCharge\Dto;
+namespace AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Dto;
 
-use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerData;
-use AstrotechLabs\AsaasSdk\Enum\BillingTypes;
-
-final class PixData
+final class QrCodeOutput
 {
     public function __construct(
-        public readonly CustomerData $customer,
-        public readonly BillingTypes $billingType,
-        public readonly float $value,
-        public readonly string $dueDate
+        public readonly string $encodedImage,
+        public readonly string $copyAndPaste,
+        public readonly string $expirationDate
     ) {
     }
 
@@ -33,10 +29,5 @@ final class PixData
         }
 
         return $this->{$property};
-    }
-
-    public function getBillingType(): string
-    {
-        return $this->billingType->value;
     }
 }

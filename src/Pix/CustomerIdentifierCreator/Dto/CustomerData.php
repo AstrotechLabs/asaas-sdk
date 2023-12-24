@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto;
+namespace AstrotechLabs\AsaasSdk\Pix\CustomerIdentifierCreator\Dto;
 
 class CustomerData
 {

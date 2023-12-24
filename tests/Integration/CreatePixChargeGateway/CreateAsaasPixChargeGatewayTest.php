@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Integration\CreatePixChargeGateway;
 
-use AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Dto\CustomerData;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\CreatePixChargeGateway;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Dto\PixData;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Dto\QrCodeOutput;
+use AstrotechLabs\AsaasSdk\Pix\CreatePixCharge\Exceptions\CreatePixChargeException;
+use AstrotechLabs\AsaasSdk\Pix\CustomerIdentifierCreator\Dto\CustomerData;
+use AstrotechLabs\AsaasSdk\Pix\Enum\BillingTypes;
 use DateTime;
 use Tests\TestCase;
-use AstrotechLabs\AsaasSdk\Enum\BillingTypes;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\PixData;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\Dto\QrCodeOutput;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\CreatePixChargeGateway;
-use AstrotechLabs\AsaasSdk\CreatePixCharge\Exceptions\CreatePixChargeException;
 
 final class CreateAsaasPixChargeGatewayTest extends TestCase
 {

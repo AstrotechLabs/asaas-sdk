@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AstrotechLabs\AsaasSdk\CustomerIdentifierCreator\Exceptions;
+namespace AstrotechLabs\AsaasSdk\Transfer\CreateTransferCharge\Exceptions;
 
 use Exception;
 
-final class CreateCustomerIdentifierException extends Exception
+final class CreateTransferChargeException extends Exception
 {
     private string $description;
     private string $type;
