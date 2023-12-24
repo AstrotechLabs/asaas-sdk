@@ -1,9 +1,16 @@
 {
     "name": "astrotechlabs/asaas-sdk",
     "description": "Pacote facilitador para integrações com Asaas Pagamento",
-    "type": "project",
-    "license": "BSD-3-Clause",
-    "minimum-stability": "stable",
+    "type": "sdk",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "keywords": [
+        "asaas",
+        "asaas-pix",
+        "asaas-payments",
+        "asaas-sdk",
+        "asaas-php"
+    ],
     "scripts": {
         "test": "XDEBUG_MODE=debug; phpunit --testdox --do-not-cache-result --configuration tests/phpunit.xml",
         "test:unit": "XDEBUG_MODE=debug; phpunit --do-not-cache-result --configuration tests/phpunit.xml --testdox --testsuite unit",
